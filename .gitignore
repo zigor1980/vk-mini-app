@@ -4,6 +4,8 @@ logs
 npm-debug.log*
 *.lock
 
+*.DS_Store
+
 # Dependency directories
 /node_modules
 

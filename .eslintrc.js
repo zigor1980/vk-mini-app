@@ -8,7 +8,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
   ],
-  plugins: ['react', 'jsx-a11y', 'react', 'prettier', 'import'],
+  plugins: ['react', 'jsx-a11y', 'react', 'prettier', 'import', 'react-hooks'],
   settings: {
     'import/resolver': {
       node: {
@@ -66,6 +66,7 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'react-hooks/exhaustive-deps': 0,
     'import/imports-first': 0,
     'import/newline-after-import': 0,
     'import/no-dynamic-require': 0,

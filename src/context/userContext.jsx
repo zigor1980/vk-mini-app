@@ -1,12 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import bridge from '@vkontakte/vk-bridge';
 const UserContext = React.createContext({ user: null });
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [authData, setAuthData] = useState(null);
+
+  const saveAuthData = data =>
+    bridge
+      .send('VKWebAppStorageSet', {
+        key: 'accessToken',
+        value: JSON.stringify(data),
+      })
+      .then(({ result }) => {
+        if (result) setAuthData(data);
+      });
+
+  useEffect(() => {
+    bridge
+      .send('VKWebAppStorageGet', {
+        keys: ['accessToken'],
+      })
+      .then(({ keys = [] }) => {
+        const data = keys.find(({ key }) => key === 'accessToken');
+
+        if (data) {
+          const { value } = data;
+          bridge
+            .send('VKWebAppCallAPIMethod', {
+              method: 'secure.checkToken',
+              params: {
+                access_token: value,
+                token: value,
+                v: '5.126',
+              },
+            })
+            .then(() => {
+              setAuthData(JSON.parse(value));
+            })
+            .catch(error => {
+              console.log(error);
+              saveAuthData(null);
+            });
+        }
+      });
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{ user, setUser, authData, setAuthData: saveAuthData }}
+    >
       {children}
     </UserContext.Provider>
   );

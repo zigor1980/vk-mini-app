@@ -1,0 +1,40 @@
+@import 'src/theme/fonts';
+
+body {
+  font-family: 'OpenSansRegular';
+}
+
+.common-description {
+  font-family: 'OpenSansRegular';
+  margin: 0;
+  padding: 0 10px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  color: #ffffff;
+}
+
+.general-header {
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'PlainScriptCTT';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 26px;
+  line-height: 30px;
+  text-align: center;
+  color: #5fe2ff;
+}
+
+@media screen and (min-width: 759px) {
+  .general-header {
+    font-size: 40px;
+    line-height: 45px;
+  }
+
+  .common-description {
+    font-size: 20px;
+    line-height: 27px;
+  }
+}

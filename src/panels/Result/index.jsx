@@ -1,56 +1,93 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
+import classnames from 'classnames';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import Group from '@vkontakte/vkui/dist/components/Group/Group';
-// import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
-import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import Button from '@vkontakte/vkui/dist/components/Button/Button';
-import { platform, IOS } from '@vkontakte/vkui';
-import PanelHeaderButton from '@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton';
-import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
-import Icon24Back from '@vkontakte/icons/dist/24/back';
-import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
+import { Div } from '@vkontakte/vkui';
 
-import UserContext from '../../context/userContext';
-const osName = platform();
+import Avatar from 'components/Avatar';
+import CustomPanel from 'components/CustomPanel';
+import CustomButton from 'components/CustomButton';
+import Logo from 'components/Logo';
+import UserContext from 'context/userContext';
 
-const ResultView = ({ go, id }) => {
+import './styles.scss';
+
+const Result = ({ id, go }) => {
   const { user } = useContext(UserContext);
 
   return (
-    <Panel id={id}>
-      <PanelHeader
-        left={
-          <PanelHeaderButton onClick={go} data-to="home">
-            {osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
-          </PanelHeaderButton>
-        }
+    <CustomPanel
+      id={id}
+      header={
+        <PanelHeader separator={false}>
+          <Logo size={85} />
+        </PanelHeader>
+      }
+      className="result-screen"
+    >
+      <Div
+        className={classnames('result-screen__cover', {
+          'result-screen__cover_mobile': true,
+          'result-screen__cover_desktop': false,
+        })}
       >
-        Result view
-      </PanelHeader>
+        <Avatar className="result-screen__avatar" src={user.photo_200} />
+        <p className="result-screen__user">
+          <span className="result-screen__user-name">{`${user.first_name} ${user.last_name}!`}</span>
+          <br />
+          Вот так звучит ваша душа!
+        </p>
+      </Div>
       <Div>
-        {user && (
-          <Group title="User Data Fetched with VK Bridge">
-            {user.photo_200 ? (
-              <Avatar mode="image" src={user.photo_200} size="100" />
-            ) : null}
-            <Div> {`${user.first_name} ${user.last_name}`}</Div>
-          </Group>
-        )}
+        <audio
+          controls
+          src="/media/cc0-audio/t-rex-roar.mp3"
+          style={{ maxWidth: '100%' }}
+        >
+          Your browser does not support the
+          <code>audio</code> element.
+        </audio>
       </Div>
-      <Div style={{ textAlign: 'center' }}>
-        <Button size="m" level="2" onClick={go} data-to="trailer">
-          Смотреть трейлер
-        </Button>
+      <h1 className="general-header" style={{ fontSize: '22px' }}>
+        Поделитесь с друзьями мелодией вашей души
+      </h1>
+      <Div className="result-screen__share">
+        <CustomButton
+          className="result-screen__button result-screen__button_share"
+          onClick={() => {
+            console.log('wall');
+          }}
+        >
+          На стену
+        </CustomButton>
+        <CustomButton
+          className="result-screen__button result-screen__button_share"
+          onClick={() => {
+            console.log('history');
+          }}
+        >
+          В историю
+        </CustomButton>
       </Div>
-    </Panel>
+      <CustomButton type="link" onClick={go} data-to="trailer">
+        Смотреть трейлер
+      </CustomButton>
+    </CustomPanel>
   );
 };
 
-ResultView.propTypes = {
-  id: PropTypes.string,
+Result.propTypes = {
+  id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
+  // goToView: PropTypes.func.isRequired,
+  fetchedUser: PropTypes.shape({
+    photo_200: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    city: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+  }),
 };
 
-export default ResultView;
+export default Result;

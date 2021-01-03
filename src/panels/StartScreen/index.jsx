@@ -1,41 +1,41 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable */
+
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
-import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import Progress from '@vkontakte/vkui/dist/components/Progress/Progress';
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 
-const StartScreen = ({ id, goToView }) => {
-  const [progress, setProgress] = useState(0);
-  const load = () =>
-    Promise.all([
-      new Promise(resolve => setTimeout(resolve), 5000).then(() => {
-        setProgress(prevValue => prevValue + 50);
-      }),
-      bridge.send('VKWebAppInit').then(() => {
-        setProgress(prevValue => prevValue + 50);
-      }),
-    ]).then(() => goToView('home'));
+import ViewContext from 'context/viewContext';
+import Logo from 'components/Logo';
+import UserContext from 'context/userContext';
+import CustomPanel from 'components/CustomPanel';
 
+import './styles.scss';
+
+const StartScreen = ({ id }) => {
+  const { setCurrentView } = useContext(ViewContext);
+  const { setUser } = useContext(UserContext);
+  const loadUser = async () => {
+    try {
+      const data = await bridge.send('VKWebAppGetUserInfo');
+      setUser(data);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setCurrentView('home');
+    } catch (error) {
+      setCurrentView('access_error');
+    }
+  };
   useEffect(() => {
-    load();
+    loadUser();
   }, []);
 
   return (
-    <Panel id={id}>
-      <Group>
-        <Div>
-          <Progress value={progress} />
-        </Div>
-      </Group>
-    </Panel>
+    <CustomPanel id={id} className="start-screen" isLargeLogo></CustomPanel>
   );
 };
 
 StartScreen.propTypes = {
   id: PropTypes.string,
-  goToView: PropTypes.func.isRequired,
 };
 
 export default StartScreen;

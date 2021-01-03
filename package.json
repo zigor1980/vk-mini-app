@@ -14,7 +14,6 @@
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^5.2.1",
-    "eslint": "^7.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^7.1.0",
@@ -23,6 +22,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "react-hot-loader": "^4.13.0",
     "react-scripts": "^3.4.4"
   },
@@ -33,13 +33,18 @@
     "@vkontakte/vkui": "^3.13.2",
     "babel-eslint": "^10.1.0",
     "chalk": "^2.4.2",
+    "classnames": "^2.2.6",
     "core-js": "^3.8.1",
     "eruda": "^2.4.1",
     "eruda-code": "^2.0.0",
     "eruda-dom": "^2.0.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
+    "query-string": "^6.13.8",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
   },
   "browserslist": {
     "production": [

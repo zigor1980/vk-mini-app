@@ -1,0 +1,13 @@
+@import 'src/theme/mixins';
+
+.trailer-screen {
+  .Panel__in {
+    @include mainBackGround;
+  }
+}
+
+.trailer {
+  &__description {
+    padding: 0 25px;
+  }
+}

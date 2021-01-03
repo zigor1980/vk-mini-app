@@ -1,0 +1,24 @@
+.custom-button {
+  box-sizing: border-box;
+  padding: 15px 25px;
+  border: none;
+  display: inline-block;
+  outline: none;
+  background: #e5e823;
+  box-shadow: 0px 0px 10px #e5e823;
+  border-radius: 300px;
+  color: #000000;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+
+  &_link {
+    background: transparent;
+    box-shadow: none;
+    color: #e5e823;
+    text-decoration: underline;
+  }
+}

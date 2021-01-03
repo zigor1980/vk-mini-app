@@ -1,0 +1,12 @@
+@mixin mainBackGround {
+  background-image: url('../img/notes-left.png'), url('../img/notes-right.png'),
+    url('../img/main-bg.png');
+  background-position: bottom left, bottom right, center;
+  background-size: 20%, 20%, cover;
+
+  @media screen and (min-width: 759px) {
+    background-image: url('../img/notes-large-left.png'),
+      url('../img/notes-large-right.png'), url('../img/main-bg.png');
+    background-size: 25%, 25%, cover;
+  }
+}

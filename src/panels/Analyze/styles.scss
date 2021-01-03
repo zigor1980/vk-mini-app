@@ -1,0 +1,14 @@
+@import 'src/theme/mixins';
+
+.analyze-screen {
+  .Panel__in {
+    background-image: url('../../img/analyze-bg.png');
+    background-color: #000000;
+    background-size: contain;
+    background-position: right bottom;
+  }
+
+  &__description {
+    text-align: center;
+  }
+}

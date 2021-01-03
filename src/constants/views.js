@@ -1,0 +1,8 @@
+export const VIEWS = {
+  home: 'home',
+  start: 'start',
+  permissions: 'permissions',
+  analyze: 'analyze',
+  accessError: 'access_error',
+  trailer: 'trailer',
+};

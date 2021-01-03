@@ -1,0 +1,43 @@
+.footer {
+  padding: 10px 10px 5px;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+
+  &__copyright {
+    margin: 0;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  &__age-mark {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+  }
+}
+
+@media screen and (min-width: 759px) {
+  .footer {
+    padding: 5px;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    &__copyright {
+      font-size: 18px;
+      line-height: 25px;
+    }
+
+    &__age-mark {
+      position: static;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

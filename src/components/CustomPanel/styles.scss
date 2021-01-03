@@ -1,0 +1,21 @@
+.Panel__content {
+  flex: 1 1 auto;
+  padding-bottom: 0;
+  max-width: 670px;
+  margin: auto;
+}
+
+.Panel {
+  &:after {
+    background-color: transparent;
+  }
+
+  .Panel__in {
+    display: flex;
+    flex-flow: column;
+    background-color: transparent;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+}

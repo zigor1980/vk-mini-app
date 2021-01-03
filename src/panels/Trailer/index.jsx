@@ -1,38 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
-import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import Button from '@vkontakte/vkui/dist/components/Button/Button';
-// import Group from '@vkontakte/vkui/dist/components/Group/Group';
-// import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import { platform, IOS } from '@vkontakte/vkui';
-import PanelHeaderButton from '@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton';
-import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
-import Icon24Back from '@vkontakte/icons/dist/24/back';
-// import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
-const osName = platform();
 
-const TrailerView = ({ go }) => (
-  <Panel id="trailer">
-    <PanelHeader
-      left={
-        <PanelHeaderButton onClick={go} data-to="home">
-          {osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
-        </PanelHeaderButton>
-      }
-    >
-      Trailer view
-    </PanelHeader>
-    <Div>
-      <Button mode="commerce" size="m" level="2">
-        Купить билет
-      </Button>
+import CustomPanel from 'components/CustomPanel';
+import CustomButton from 'components/CustomButton';
+
+// import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
+import trailerImage from '../../img/trailer.png';
+import './styles.scss';
+
+const TrailerView = ({ id, go }) => (
+  <CustomPanel className="trailer-screen" id={id} withBack onBack={go}>
+    <Div style={{ paddingBottom: 0 }}>
+      <p className="common-description trailer__description">
+        Школьный учитель музыки Джо Гарднер случайно попадает в мир, где
+        зарождаются человеческие увлечения, мечты и интересы, и там он
+        знакомится с молодой душой по имени 22.
+        <br />
+        <b>
+          Смотрите анимационное приключение Disney и Pixar “Душа” в кино с 21
+          января!
+        </b>
+      </p>
     </Div>
-  </Panel>
+    <Div style={{ paddingBottom: 0 }}>
+      <img
+        src={trailerImage}
+        alt="Trailer"
+        style={{ maxWidth: '100%', margin: 'auto', display: 'block' }}
+      />
+    </Div>
+    <Div style={{ textAlign: 'center' }}>
+      <CustomButton>Купить билет</CustomButton>
+    </Div>
+  </CustomPanel>
 );
 
 TrailerView.propTypes = {
+  id: PropTypes.string,
   go: PropTypes.func.isRequired,
 };
 
