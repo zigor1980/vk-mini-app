@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
@@ -14,9 +16,8 @@ import mainSrc from '../../img/main.png';
 import './styles.scss';
 
 const Home = ({ id, goToView, go }) => {
-  const { authData = {}, user } = useContext(UserContext);
+  const { authData = {} } = useContext(UserContext);
   const { isDesktop } = useContext(LaunchParamsContext);
-  console.log(user);
   const goToAnalyze = useCallback(() => {
     const acessToken = authData && authData.access_token;
 

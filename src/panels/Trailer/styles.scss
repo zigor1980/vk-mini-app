@@ -4,10 +4,41 @@
   .Panel__in {
     @include mainBackGround;
   }
+
+  .Panel__content {
+    max-width: 619px;
+  }
+
+  &__image {
+    padding-bottom: 0;
+    max-width: 440px;
+    margin: auto;
+
+    @media screen and (min-width: 759px) {
+      margin-top: 20px;
+    }
+  }
+
+  &__button {
+    @media screen and (min-width: 759px) {
+      margin-top: 60px;
+    }
+  }
 }
 
 .trailer {
   &__description {
+    font-family: 'OpenSansRegular';
+    font-style: normal;
+    font-weight: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
     padding: 0 25px;
+
+    b {
+      letter-spacing: 0.065em;
+      font-weight: 700;
+    }
   }
 }

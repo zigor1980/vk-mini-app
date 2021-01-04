@@ -6,7 +6,7 @@
   }
 
   &__description {
-    padding: 0 10px;
+    padding: 0 25px;
     text-align: center;
   }
 
@@ -20,6 +20,10 @@
     @media screen and (min-width: 500px) {
       margin-top: -40px;
       margin-bottom: -125px;
+    }
+
+    @media screen and (min-width: 759px) {
+      margin-bottom: -60px;
     }
   }
 }

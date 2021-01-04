@@ -9,9 +9,8 @@ const LaunchParamsContext = React.createContext({ platform: osName });
 export const LaunchParamsProvider = ({ children }) => {
   const { search } = useLocation();
   const launchParams = queryString.parse(search);
-  console.log(launchParams);
+
   const isDesktop = /desktop-*/gim.test(launchParams.vk_platform);
-  console.log(isDesktop);
 
   return (
     <LaunchParamsContext.Provider

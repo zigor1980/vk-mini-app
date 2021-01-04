@@ -1,9 +1,9 @@
 /* eslint-disable */
 
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
-
+import { Alert } from '@vkontakte/vkui';
 // import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -17,12 +17,18 @@ import TrailerView from './panels/Trailer';
 import Permissions from './panels/Permissions';
 import Analyze from './panels/Analyze';
 import Result from './panels/Result';
+import LaunchParamsContext from 'context/launchParamsContext';
 
 import './styles.scss';
 
 const App = () => {
+  const context = useContext(LaunchParamsContext);
+  console.log(context);
   const { view, setCurrentView } = useContext(ViewContext);
   const { setUser } = useContext(UserContext);
+  const [popup, setPopup] = useState(null);
+  console.log('app view', view);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -40,7 +46,7 @@ const App = () => {
   };
 
   return (
-    <View activePanel={view}>
+    <View activePanel={view} popout={popup}>
       <StartScreen id={VIEWS.start} />
       <Home id={VIEWS.home} goToView={setCurrentView} go={go} />
       <TrailerView id="trailer" go={go} />

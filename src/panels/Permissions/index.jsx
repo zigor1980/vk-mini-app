@@ -9,30 +9,25 @@ import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
+import LaunchParamsContext from 'context/launchParamsContext';
 
 import catSrc from '../../img/cat.png';
 import './styles.scss';
 
 const Permissions = ({ id, goToView }) => {
   const { setAuthData } = useContext(UserContext);
-
+  const { launchParams = {} } = useContext(LaunchParamsContext);
   const requestPermissions = () => {
     bridge
       .send('VKWebAppGetAuthToken', {
-        app_id: 7714087,
+        app_id: launchParams && +launchParams.vk_app_id,
         scope: 'friends,stories,wall,groups',
       })
-      .then(result => {
-        console.log('get permissions', result);
-
-        return setAuthData(result);
-      })
+      .then(result => setAuthData(result))
       .then(() => {
-        console.log('set auth data');
-
         goToView('analyze');
       })
-      .catch(error => console.log('Failed get permission', error));
+      .catch(error => error);
   };
 
   return (
@@ -50,7 +45,7 @@ const Permissions = ({ id, goToView }) => {
           Чтобы услышать душу, нужен доступ к информации с вашей страницы!
         </h1>
         <p className="permissions-screen__description common-description">
-          Не переживайте, для создании мелодии достаточно только общедоступной
+          Не переживайте, для создания мелодии достаточно только общедоступной
           информации!
         </p>
         <img src={catSrc} alt="main" className="permissions-screen__image" />

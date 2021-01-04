@@ -27,24 +27,10 @@ export const UserProvider = ({ children }) => {
 
         if (data) {
           const { value } = data;
-          bridge
-            .send('VKWebAppCallAPIMethod', {
-              method: 'secure.checkToken',
-              params: {
-                access_token: value,
-                token: value,
-                v: '5.126',
-              },
-            })
-            .then(() => {
-              setAuthData(JSON.parse(value));
-            })
-            .catch(error => {
-              console.log(error);
-              saveAuthData(null);
-            });
+          setAuthData(JSON.parse(value));
         }
-      });
+      })
+      .catch(() => {});
   }, []);
 
   return (

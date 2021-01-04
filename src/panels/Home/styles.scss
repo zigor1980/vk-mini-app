@@ -16,23 +16,18 @@
         width: 257px;
       }
     }
-
-    @media screen and (min-width: 500px) {
-      font-size: 23px;
-      line-height: 31px;
-    }
   }
 
   &__image {
     max-width: 100%;
     margin: auto;
     display: block;
-    margin-top: -20px;
-    margin-bottom: -70px;
+    margin-top: 0px;
+    margin-bottom: -38px;
 
     @media screen and (min-width: 500px) {
-      margin-top: -40px;
-      margin-bottom: -110px;
+      margin-top: 29px;
+      margin-bottom: -52px;
     }
   }
 }

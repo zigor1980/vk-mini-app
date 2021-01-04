@@ -4,6 +4,8 @@
   flex-wrap: nowrap;
   align-items: center;
   padding: 0 12px;
+  padding-top: constant(safe-area-inset-top, 5px);
+  padding-top: env(safe-area-inset-top, 5px);
 
   &__before,
   &__after {

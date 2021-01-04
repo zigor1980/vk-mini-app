@@ -8,7 +8,7 @@ export default function () {
   return (
     <Div className="footer">
       <p className="footer__copyright">&copy; 2020 Disney/Pixar</p>
-      <img src={ageMark} alt="6+" />
+      <img src={ageMark} alt="6+" className="footer__age-mark" />
     </Div>
   );
 }

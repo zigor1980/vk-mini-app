@@ -23,14 +23,14 @@ const TrailerView = ({ id, go }) => (
         </b>
       </p>
     </Div>
-    <Div style={{ paddingBottom: 0 }}>
+    <Div className="trailer-screen__image">
       <img
         src={trailerImage}
         alt="Trailer"
         style={{ maxWidth: '100%', margin: 'auto', display: 'block' }}
       />
     </Div>
-    <Div style={{ textAlign: 'center' }}>
+    <Div className="trailer-screen__button" style={{ textAlign: 'center' }}>
       <CustomButton>Купить билет</CustomButton>
     </Div>
   </CustomPanel>

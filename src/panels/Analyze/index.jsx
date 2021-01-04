@@ -1,7 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+/* eslint-disable */
+
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
-
+import classnames from 'classnames';
 import UserContext from 'context/userContext';
 import CustomHeader from 'components/CustomHeader';
 import CustomPanel from 'components/CustomPanel';
@@ -11,41 +13,41 @@ import Logo from 'components/Logo';
 // import trailerImage from '../../img/trailer.png';
 import './styles.scss';
 
+const STEPS = [
+  'Анализируем вашу страницу...',
+  'Изучаем список сообществ...',
+  'Смотрим на ваши интересы...',
+  'Знакомимся в вашими друзьями...',
+  'Рассматриваем ваши фотографии...',
+  'Осталась пара нот. Момент...',
+];
+
 const AnalyzeView = ({ id, goToView }) => {
   const { authData, user } = useContext(UserContext);
-
+  const [step, setStep] = useState(0);
   useEffect(() => {
-    bridge
-      .send('VKWebAppCallAPIMethod', {
-        method: 'groups.get',
-        params: {
-          extended: 1,
-          fields: 'activity',
-          user_id: user.id,
-          access_token: authData && authData.access_token,
-          v: '5.126',
-        },
-      })
-      .then(() => {
-        console.log('groups featched');
-
-        return new Promise(resolve => setTimeout(resolve, 1000));
-      })
-      .then(() => goToView('result'))
-      .catch(error => console.log(error));
-  }, []);
+    if (step < STEPS.length) {
+      setTimeout(() => setStep(current => current + 1), 2000);
+    } else {
+      goToView('result');
+    }
+  }, [step]);
 
   return (
-    <CustomPanel
-      className="analyze-screen"
-      id={id}
-      header={
-        <CustomHeader>
-          <Logo size={85} />
-        </CustomHeader>
-      }
-    >
-      <h1 className="general-header">Анализируем вашу страницу…</h1>
+    <CustomPanel className="analyze-screen" id={id}>
+      <h1 className="general-header" style={{ width: '100%' }}>
+        <div className="step-container" style={{ width: '100%' }}>
+          {STEPS.map((currentStep, index) => (
+            <span
+              className={classnames('step', {
+                'current-step': index === step,
+              })}
+            >
+              {currentStep}
+            </span>
+          ))}
+        </div>
+      </h1>
     </CustomPanel>
   );
 };

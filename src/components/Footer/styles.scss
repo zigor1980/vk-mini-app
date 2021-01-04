@@ -22,20 +22,22 @@
 
 @media screen and (min-width: 759px) {
   .footer {
-    padding: 5px;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
+    padding: 0;
 
     &__copyright {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
       font-size: 18px;
       line-height: 25px;
     }
 
     &__age-mark {
-      position: static;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      top: auto;
+      transform: none;
       width: 32px;
       height: 32px;
     }

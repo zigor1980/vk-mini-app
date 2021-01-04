@@ -9,7 +9,9 @@ import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
+import AudioPlayer from 'components/Player';
 
+import audioSrc from '../../audio/sound.mp3';
 import './styles.scss';
 
 const Result = ({ id, go }) => {
@@ -38,17 +40,21 @@ const Result = ({ id, go }) => {
           Вот так звучит ваша душа!
         </p>
       </Div>
-      <Div>
-        <audio
-          controls
-          src="/media/cc0-audio/t-rex-roar.mp3"
-          style={{ maxWidth: '100%' }}
-        >
-          Your browser does not support the
-          <code>audio</code> element.
-        </audio>
+      <Div style={{ padding: 0 }}>
+        {/* eslint-disable-next-line */}
+        <AudioPlayer src={audioSrc} />
       </Div>
-      <h1 className="general-header" style={{ fontSize: '22px' }}>
+      <Div>
+        <CustomButton
+          className="result-screen__button result-screen__button_add"
+          onClick={() => {
+            console.log('wall');
+          }}
+        >
+          Добавить в мою музыку
+        </CustomButton>
+      </Div>
+      <h1 className="general-header">
         Поделитесь с друзьями мелодией вашей души
       </h1>
       <Div className="result-screen__share">
