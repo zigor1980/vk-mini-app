@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import { Div } from '@vkontakte/vkui';
+import bridge from '@vkontakte/vk-bridge';
 
 import Avatar from 'components/Avatar';
 import CustomPanel from 'components/CustomPanel';
@@ -11,7 +12,7 @@ import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
 import AudioPlayer from 'components/Player';
 
-import audioSrc from '../../audio/sound.mp3';
+// import audioSrc from '../../audio/sound.mp3';
 import './styles.scss';
 
 const Result = ({ id, go }) => {
@@ -42,7 +43,7 @@ const Result = ({ id, go }) => {
       </Div>
       <Div style={{ padding: 0 }}>
         {/* eslint-disable-next-line */}
-        <AudioPlayer src={audioSrc} />
+        <AudioPlayer />
       </Div>
       <Div>
         <CustomButton
@@ -61,7 +62,10 @@ const Result = ({ id, go }) => {
         <CustomButton
           className="result-screen__button result-screen__button_share"
           onClick={() => {
-            console.log('wall');
+            bridge.send('VKWebAppShowWallPostBox', {
+              message: 'Hello!',
+              owner_id: user && user.id,
+            });
           }}
         >
           На стену
@@ -69,7 +73,11 @@ const Result = ({ id, go }) => {
         <CustomButton
           className="result-screen__button result-screen__button_share"
           onClick={() => {
-            console.log('history');
+            bridge.send('VKWebAppShowStoryBox', {
+              background_type: 'image',
+              url:
+                'https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg',
+            });
           }}
         >
           В историю
