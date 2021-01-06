@@ -4,9 +4,6 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div';
 
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
-
-// import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
-import trailerImage from '../../img/trailer.png';
 import './styles.scss';
 
 const TrailerView = ({ id, go }) => (
@@ -18,20 +15,33 @@ const TrailerView = ({ id, go }) => (
         знакомится с молодой душой по имени 22.
         <br />
         <b>
-          Смотрите анимационное приключение Disney и Pixar “Душа” в кино с 21
-          января!
+          Смотрите анимационное приключение Disney и Pixar &laquo;Душа&raquo; в
+          кино с 21 января!
         </b>
       </p>
     </Div>
-    <Div className="trailer-screen__image">
-      <img
-        src={trailerImage}
-        alt="Trailer"
-        style={{ maxWidth: '100%', margin: 'auto', display: 'block' }}
-      />
+    <Div className="trailer-screen__video-container">
+      <iframe
+        className="trailer-screen__video"
+        height="315"
+        title="Душа трейлер"
+        src="https://www.youtube.com/embed/R33DQ7GyuSk"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
     </Div>
     <Div className="trailer-screen__button" style={{ textAlign: 'center' }}>
-      <CustomButton>Купить билет</CustomButton>
+      <CustomButton
+        onClick={() => {
+          const link = document.createElement('a');
+          link.setAttribute('href', 'https://google.com');
+          link.setAttribute('target', '_blank');
+          link.click();
+        }}
+      >
+        Купить билет
+      </CustomButton>
     </Div>
   </CustomPanel>
 );

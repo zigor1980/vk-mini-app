@@ -60,8 +60,12 @@ const Player = ({ src, title = 'Душа пользователя' }) => {
 
     return () => {
       audioRef.current.removeEventListener('play', onPlay);
+      // eslint-disable-next-line
       audioRef.current.removeEventListener('pause', onPause);
+      // eslint-disable-next-line
+      audioRef.current.removeEventListener('timeupdate', onTimeUpdate);
     };
+    // eslint-disable-next-line
   }, []);
 
   const play = () => {

@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import { Div } from '@vkontakte/vkui';
 import bridge from '@vkontakte/vk-bridge';
+import { Div } from '@vkontakte/vkui';
 
-import Avatar from 'components/Avatar';
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
 import AudioPlayer from 'components/Player';
+import Cover from 'components/Cover';
 
 // import audioSrc from '../../audio/sound.mp3';
 import './styles.scss';
@@ -28,21 +27,18 @@ const Result = ({ id, go }) => {
       }
       className="result-screen"
     >
-      <Div
-        className={classnames('result-screen__cover', {
-          'result-screen__cover_mobile': true,
-          'result-screen__cover_desktop': false,
-        })}
-      >
-        <Avatar className="result-screen__avatar" src={user.photo_200} />
-        <p className="result-screen__user">
-          <span className="result-screen__user-name">{`${user.first_name} ${user.last_name}!`}</span>
-          <br />
-          Вот так звучит ваша душа!
-        </p>
-      </Div>
+      <Cover
+        className="result-screen__cover"
+        src={user.photo_200}
+        title={
+          <>
+            <span className="result-screen__user-name">{`${user.first_name} ${user.last_name}!`}</span>
+            <br />
+            Вот так звучит ваша душа!
+          </>
+        }
+      />
       <Div style={{ padding: 0 }}>
-        {/* eslint-disable-next-line */}
         <AudioPlayer />
       </Div>
       <Div>

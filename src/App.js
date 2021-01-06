@@ -17,6 +17,7 @@ import TrailerView from './panels/Trailer';
 import Permissions from './panels/Permissions';
 import Analyze from './panels/Analyze';
 import Result from './panels/Result';
+import Share from './panels/Share';
 import LaunchParamsContext from 'context/launchParamsContext';
 
 import './styles.scss';
@@ -26,7 +27,7 @@ const App = () => {
   console.log(context);
   const { view, setCurrentView } = useContext(ViewContext);
   const { setUser } = useContext(UserContext);
-  const [popup, setPopup] = useState(null);
+  const [popout, setPopout] = useState(null);
   console.log('app view', view);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const App = () => {
   };
 
   return (
-    <View activePanel={view} popout={popup}>
+    <View activePanel={view} popout={popout}>
       <StartScreen id={VIEWS.start} />
       <Home id={VIEWS.home} goToView={setCurrentView} go={go} />
       <TrailerView id="trailer" go={go} />
@@ -54,6 +55,7 @@ const App = () => {
       <Permissions id="permissions" goToView={setCurrentView} />
       <Analyze id="analyze" goToView={setCurrentView} />
       <Result id="result" goToView={setCurrentView} go={go} />
+      <Share id={VIEWS.share} go={go} setPopout={setPopout} />
     </View>
   );
 };

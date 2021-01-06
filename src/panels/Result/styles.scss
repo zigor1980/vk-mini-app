@@ -66,19 +66,6 @@
         line-height: 23px;
       }
     }
-
-    font-family: 'OpenSansRegular';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    text-align: center;
-    color: #004a9b;
-
-    @media screen and (min-width: 759px) {
-      font-size: 16px;
-      line-height: 21px;
-    }
   }
 
   &__share {
@@ -89,37 +76,5 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
-  }
-
-  &__avatar {
-    margin: auto;
-    margin-top: 4px;
-    border: 4px solid white;
-    border-radius: 50%;
-    width: 84px;
-    height: 84px;
-    flex: 0 0 auto;
-
-    @media screen and (min-width: 759px) {
-      width: 122px;
-      height: 122px;
-    }
-  }
-
-  &__cover {
-    display: block;
-    background-image: url('../../img/result-cover.png');
-    background-size: cover;
-    background-position: center;
-    margin: auto;
-    margin-top: -10px;
-    text-align: center;
-    width: 184px;
-    height: 184px;
-
-    @media screen and (min-width: 759px) {
-      width: 244px;
-      height: 244px;
-    }
   }
 }
