@@ -18,6 +18,7 @@ const Share = ({ id, setPopout }) => {
       </PopoutWrapper>,
     );
     setTimeout(() => setPopout(null), 2000);
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div';
 
 import CustomHeader from 'components/CustomHeader';
 import Footer from 'components/Footer';
+
 import './styles.scss';
 
 const CustomPanel = ({
@@ -15,8 +16,15 @@ const CustomPanel = ({
   isLargeLogo,
   withBack,
   onBack,
+  withVideoBackground,
+  videoSrc,
 }) => (
   <Panel id={id} className={classnames('', className)}>
+    {withVideoBackground && videoSrc ? (
+      <video autoPlay muted loop id="myVideo" className="Panel__video-bg">
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+    ) : null}
     <CustomHeader
       isLargeLogo={isLargeLogo}
       withBack={withBack}
@@ -28,6 +36,8 @@ const CustomPanel = ({
 );
 
 CustomPanel.propTypes = {
+  withVideoBackground: PropTypes.bool,
+  videoSrc: PropTypes.string,
   withBack: PropTypes.bool,
   onBack: PropTypes.func,
   id: PropTypes.string,

@@ -7,11 +7,16 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authData, setAuthData] = useState(null);
   const [songId, setSongId] = useState(null);
-  const saveSongId = id =>
-    bridge.send('VKWebAppStorageSet', {
-      key: 'accessToken',
-      value: JSON.stringify(id),
-    });
+  const saveSongId = id => {
+    bridge
+      .send('VKWebAppStorageSet', {
+        key: 'songId',
+        value: JSON.stringify(id),
+      })
+      .then(() => {
+        setSongId(id);
+      });
+  };
 
   const saveAuthData = data =>
     bridge
