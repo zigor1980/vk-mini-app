@@ -1,0 +1,13 @@
+// eslint-disable quotes
+
+.Panel__header_logo {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.start-screen {
+  color: #ffffff;
+  .Panel__in {
+    background-image: url('../../img/mobile-start-background.png');
+  }
+}

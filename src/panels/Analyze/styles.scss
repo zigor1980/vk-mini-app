@@ -1,0 +1,56 @@
+@import 'src/theme/mixins';
+
+.analyze-screen {
+  .Panel__content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .general-header {
+    @media screen and (min-width: 700px) {
+      margin-top: 40px;
+    }
+  }
+
+  .Panel__in {
+    background-image: url('../../img/analyze-bg.png');
+    background-color: #000000;
+    background-size: contain;
+    background-position: right bottom;
+
+    @media screen and (min-width: 700px) {
+      background-image: url('../../img/analyze-bg-large.png');
+      background-size: 85%;
+    }
+  }
+
+  &__description {
+    text-align: center;
+  }
+}
+
+.step-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.step {
+  display: block;
+  width: 100%;
+  display: inline-block;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-shadow: 2px 0px 2px rgba(0, 0, 0, 1);
+  visibility: hidden;
+  transition: all 0.5s ease;
+}
+
+.current-step {
+  transition: all 0.5s ease;
+  visibility: visible;
+  transition-delay: 0.5s;
+  opacity: 1;
+}

@@ -1,0 +1,99 @@
+@import 'src/theme/mixins';
+
+.share-screen {
+  text-align: center;
+
+  .footer {
+    padding: 0;
+
+    &__copyright {
+      position: absolute;
+      bottom: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &__age-mark {
+      bottom: 7px;
+      right: 15px;
+    }
+  }
+
+  .Panel__content {
+    padding: 15px 0 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+  }
+
+  &__button {
+    &_agree {
+      background-color: #ffffff;
+      box-shadow: 0px 0px 10px #ffffff;
+      border-radius: 300px;
+      flex: 0 0 188px;
+      max-width: 188px;
+
+      @media screen and (max-width: 600px) {
+        flex: 0 0 auto;
+        margin-top: 5px;
+        width: 135px;
+      }
+    }
+  }
+
+  .general-header {
+    color: #ffffff;
+  }
+
+  &__footer {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../img/share-footer-bg.svg');
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 135px 80px 83px;
+
+    @media screen and (max-width: 600px) {
+      background-image: url('../../img/notes-m-b-l.svg'),
+        url('../../img/notes-m-b-r.svg'), url('../../img/share-footer-m.svg');
+      flex-flow: column;
+      background-position: bottom left, bottom right, top center;
+      background-size: 25%, 26%, cover;
+      padding: 23% 50px 40px;
+    }
+  }
+
+  .Panel__in {
+    background-image: url('../../img/notes-share-top-left.svg'),
+      url('../../img/notes-share-top-right.svg'), url('../../img/main-bg.png');
+    background-position: top left, top right, center;
+    background-size: 34%, 30%, cover;
+    background-repeat: no-repeat;
+
+    @media screen and (max-width: 600px) {
+      background-image: url('../../img/notes-m-t-l.svg'),
+        url('../../img/notes-m-t-r.svg'), url('../../img/main-bg.png');
+      background-position: top left, top right, center;
+      background-size: 30%, 30%, cover;
+    }
+  }
+
+  &__description {
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .general-header {
+    font-size: 22px;
+
+    @media screen and (min-width: 500px) {
+      font-size: 40px;
+    }
+  }
+}

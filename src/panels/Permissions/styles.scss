@@ -1,0 +1,29 @@
+@import 'src/theme/mixins';
+
+.permissions-screen {
+  .Panel__in {
+    @include mainBackGround;
+  }
+
+  &__description {
+    padding: 0 25px;
+    text-align: center;
+  }
+
+  &__image {
+    max-width: 100%;
+    margin: auto;
+    display: block;
+    margin-top: -20px;
+    margin-bottom: -70px;
+
+    @media screen and (min-width: 500px) {
+      margin-top: -40px;
+      margin-bottom: -125px;
+    }
+
+    @media screen and (min-width: 759px) {
+      margin-bottom: -60px;
+    }
+  }
+}

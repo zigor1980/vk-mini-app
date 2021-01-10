@@ -1,0 +1,33 @@
+.Panel__content {
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  padding-bottom: 0;
+  max-width: 670px;
+  margin: auto;
+}
+
+.Panel {
+  &:after {
+    background-color: transparent;
+  }
+
+  &__video-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+  }
+
+  .Panel__in {
+    display: flex;
+    flex-flow: column;
+    background-color: transparent;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+}

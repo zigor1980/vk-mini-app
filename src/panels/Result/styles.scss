@@ -1,0 +1,80 @@
+@import 'src/theme/mixins';
+
+.result-screen {
+  text-align: center;
+
+  .Panel__in {
+    @include mainBackGround;
+  }
+
+  &__description {
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .general-header {
+    font-size: 22px;
+
+    @media screen and (min-width: 500px) {
+      font-size: 40px;
+    }
+  }
+
+  &__button {
+    &_share {
+      flex: 1 1 125px;
+      min-width: 125px;
+      width: 125px;
+      margin: 5px;
+      padding: 15px 20px;
+      font-weight: 600;
+
+      @media screen and (min-width: 500px) {
+        max-width: 258px;
+        padding: 15px 25px;
+        margin: 15px;
+      }
+    }
+
+    &_add {
+      box-shadow: none;
+      font-size: 11px;
+      line-height: 15px;
+      padding: 9px 20px;
+      background: #84c8f7;
+      border-radius: 31px;
+      font-family: 'OpenSansRegular';
+      font-style: normal;
+      font-weight: normal;
+
+      text-align: center;
+      color: #0e2c57;
+
+      @media screen and (min-width: 700px) {
+        font-size: 18px;
+        line-height: 25px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  &__user {
+    &-name {
+      font-weight: 800;
+      @media screen and (min-width: 759px) {
+        font-size: 17px;
+        line-height: 23px;
+      }
+    }
+  }
+
+  &__share {
+    text-align: center;
+    padding: 0;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+}

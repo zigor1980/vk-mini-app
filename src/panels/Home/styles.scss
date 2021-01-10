@@ -1,0 +1,33 @@
+@import 'src/theme/mixins';
+
+.home-screen {
+  .Panel__in {
+    @include mainBackGround;
+  }
+
+  &__description {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  &__button {
+    &_main {
+      @media screen and (min-width: 500px) {
+        width: 257px;
+      }
+    }
+  }
+
+  &__image {
+    max-width: 100%;
+    margin: auto;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: -38px;
+
+    @media screen and (min-width: 500px) {
+      margin-top: 29px;
+      margin-bottom: -52px;
+    }
+  }
+}

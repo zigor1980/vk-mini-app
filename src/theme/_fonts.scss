@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'OpenSansRegular';
+  src: url('../fonts/OpenSans/OpenSans-Regular.eot');
+  src: url('../fonts/OpenSans/OpenSans-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/OpenSans/OpenSans-Regular.woff') format('woff'),
+    url('../fonts/OpenSans/OpenSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'PlainScriptCTT';
+  src: url('../fonts/PlainScriptCTT/plainscriptctt.eot'); /* IE 9 Compatibility Mode */
+  src: url('../fonts/PlainScriptCTT/plainscriptctt.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE < 9 */ url('../fonts/PlainScriptCTT/plainscriptctt.woff2')
+      format('woff2'),
+    /* Super Modern Browsers */
+      url('../fonts/PlainScriptCTT/plainscriptctt.woff') format('woff'),
+    /* Firefox >= 3.6, any other modern browser */
+      url('../fonts/PlainScriptCTT/plainscriptctt.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+      url('../fonts/PlainScriptCTT/plainscriptctt.svg#plainscriptctt')
+      format('svg'); /* Chrome < 4, Legacy iOS */
+}
