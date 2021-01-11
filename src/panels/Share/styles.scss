@@ -3,6 +3,16 @@
 .share-screen {
   text-align: center;
 
+  &__user {
+    &-name {
+      font-weight: 800;
+      @media screen and (min-width: 759px) {
+        font-size: 17px;
+        line-height: 23px;
+      }
+    }
+  }
+
   .footer {
     padding: 0;
 

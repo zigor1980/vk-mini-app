@@ -6,7 +6,29 @@ const UserContext = React.createContext({ user: null });
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authData, setAuthData] = useState(null);
-  const [songId, setSongId] = useState(null);
+  const [shared, setShared] = useState(null);
+  const [song, setSong] = useState(null);
+  const [userToken, setUserToken] = useState(null);
+  const requestPermissions = launchParams =>
+    bridge
+      .send('VKWebAppGetAuthToken', {
+        app_id: launchParams && +launchParams.vk_app_id,
+        scope: 'friends,stories,wall,groups',
+      })
+      .then(result => {
+        setAuthData(result);
+
+        return result;
+      });
+  const saveUserToken = token =>
+    bridge
+      .send('VKWebAppStorageSet', {
+        key: 'userToken',
+        value: JSON.stringify(token),
+      })
+      .then(() => {
+        setUserToken(token);
+      });
   const saveSongId = id => {
     bridge
       .send('VKWebAppStorageSet', {
@@ -14,7 +36,7 @@ export const UserProvider = ({ children }) => {
         value: JSON.stringify(id),
       })
       .then(() => {
-        setSongId(id);
+        setSong(id);
       });
   };
 
@@ -32,12 +54,17 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        songId,
+        userToken,
+        song,
+        shared,
+        setShared,
+        saveUserToken,
+        requestPermissions,
         setUser,
         authData,
         saveAuthData,
         setAuthData,
-        setSongId,
+        setSong,
         saveSongId,
       }}
     >

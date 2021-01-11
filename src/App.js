@@ -54,7 +54,12 @@ const App = () => {
       <AccessError id="access_error" />
       <Permissions id="permissions" goToView={setCurrentView} />
       <Analyze id="analyze" goToView={setCurrentView} />
-      <Result id="result" goToView={setCurrentView} go={go} />
+      <Result
+        id="result"
+        goToView={setCurrentView}
+        go={go}
+        setPopout={setPopout}
+      />
       <Share id={VIEWS.share} go={go} setPopout={setPopout} />
     </View>
   );

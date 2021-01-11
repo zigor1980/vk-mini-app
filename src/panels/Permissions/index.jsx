@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import bridge from '@vkontakte/vk-bridge';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
@@ -8,26 +7,19 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
-import UserContext from 'context/userContext';
 import LaunchParamsContext from 'context/launchParamsContext';
+import UserContext from 'context/userContext';
 
 import catSrc from '../../img/cat.png';
 import './styles.scss';
 
 const Permissions = ({ id, goToView }) => {
-  const { setAuthData } = useContext(UserContext);
   const { launchParams = {} } = useContext(LaunchParamsContext);
-  const requestPermissions = () => {
-    bridge
-      .send('VKWebAppGetAuthToken', {
-        app_id: launchParams && +launchParams.vk_app_id,
-        scope: 'friends,stories,wall,groups',
-      })
-      .then(result => setAuthData(result))
-      .then(() => {
-        goToView('analyze');
-      })
-      .catch(error => error);
+  const { requestPermissions } = useContext(UserContext);
+  const getPermissions = () => {
+    requestPermissions(launchParams).then(() => {
+      goToView('analyze');
+    });
   };
 
   return (
@@ -51,7 +43,7 @@ const Permissions = ({ id, goToView }) => {
         <img src={catSrc} alt="main" className="permissions-screen__image" />
       </Div>
       <Group title="Navigation Example" style={{ textAlign: 'center' }}>
-        <CustomButton onClick={requestPermissions} data-to="permissions">
+        <CustomButton onClick={getPermissions} data-to="permissions">
           Дать доступ
         </CustomButton>
       </Group>

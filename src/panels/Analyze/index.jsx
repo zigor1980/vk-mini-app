@@ -8,6 +8,7 @@ import UserContext from 'context/userContext';
 import CustomHeader from 'components/CustomHeader';
 import CustomPanel from 'components/CustomPanel';
 import Logo from 'components/Logo';
+import API from 'utils/api';
 
 // import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 // import trailerImage from '../../img/trailer.png';
@@ -29,18 +30,46 @@ const videoSourceDesctop =
 const videoSourceMobile =
   'https://storage.googleapis.com/soul_mpv/videos/Analyse_mobile.mp4';
 const AnalyzeView = ({ id, goToView }) => {
-  const { authData, user, saveSongId, setSongId } = useContext(UserContext);
+  const { authData, user, setSong, setUser } = useContext(UserContext);
   const { isDesktop } = useContext(LaunchParamsContext);
 
   const [step, setStep] = useState(0);
   useEffect(() => {
-    if (step < STEPS.length) {
-      setTimeout(() => setStep(current => current + 1), STEPS[step].delay);
-    } else {
-      saveSongId('1123');
+    Promise.all([
+      STEPS.reduce((memo, element, index) => {
+        return memo.then(
+          () =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                setStep(current => current + 1);
+                resolve();
+              }, STEPS[step].delay);
+            }),
+        );
+      }, Promise.resolve()),
+      API.getSong().then(({ data }) => {
+        return data;
+      }),
+      bridge
+        .send('VKWebAppCallAPIMethod', {
+          method: 'users.get',
+          params: {
+            v: '5.126',
+            access_token: authData.access_token,
+            user_ids: user.id,
+            name_case: 'gen',
+          },
+        })
+        .then(({ response }) => {
+          return response;
+        }),
+    ]).then(([_, song, [user]]) => {
+      const { first_name: firstNameGen, last_name: lastNameGen } = user;
+      setSong(song);
+      setUser(prev => ({ ...prev, firstNameGen, lastNameGen }));
       goToView('result');
-    }
-  }, [step]);
+    });
+  }, []);
 
   return (
     <CustomPanel

@@ -1,21 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import bridge from '@vkontakte/vk-bridge';
 import { Div } from '@vkontakte/vkui';
+import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
+import PopoutWrapper from '@vkontakte/vkui/dist/components/PopoutWrapper/PopoutWrapper';
 
+import API from 'utils/api';
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
 import AudioPlayer from 'components/Player';
 import Cover from 'components/Cover';
-
-// import audioSrc from '../../audio/sound.mp3';
 import './styles.scss';
 
-const Result = ({ id, go }) => {
-  const { user } = useContext(UserContext);
+const Result = ({ id, go, setPopout }) => {
+  const { user, song, authData, setSong } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!song && user && user.songId) {
+      setPopout(
+        <PopoutWrapper hasMask>
+          <ScreenSpinner />
+        </PopoutWrapper>,
+      );
+      API.getSong().then(({ data }) => {
+        setSong(data);
+        setPopout(null);
+      });
+    }
+  }, []);
 
   return (
     <CustomPanel
@@ -39,13 +54,31 @@ const Result = ({ id, go }) => {
         }
       />
       <Div style={{ padding: 0 }}>
-        <AudioPlayer />
+        <AudioPlayer
+          src={song && song.url}
+          title={`Душа ${user.firstNameGen} ${user.lastNameGen}`}
+        />
       </Div>
       <Div>
         <CustomButton
           className="result-screen__button result-screen__button_add"
           onClick={() => {
-            console.log('wall');
+            API.loadSong(song && song.url)
+              .then(({ data }) => {
+                const file = new File([data], 'name');
+                console.log(file);
+
+                return bridge.send('VKWebAppCallAPIMethod', {
+                  method: 'audio.getUploadServer',
+                  params: {
+                    v: '5.126',
+                    access_token: authData.access_token,
+                  },
+                });
+              })
+              .then(data => {
+                console.log('srver', data);
+              });
           }}
         >
           Добавить в мою музыку
@@ -89,7 +122,7 @@ const Result = ({ id, go }) => {
 Result.propTypes = {
   id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
-  // goToView: PropTypes.func.isRequired,
+  setPopout: PropTypes.func.isRequired,
   fetchedUser: PropTypes.shape({
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
