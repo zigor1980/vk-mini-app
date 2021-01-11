@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Slider from '@vkontakte/vkui/dist/components/Slider/Slider';
+import bridge from '@vkontakte/vk-bridge';
 
 import { formatTime } from './utils';
 import './styles.scss';
@@ -57,6 +58,17 @@ const Player = ({ src, title = 'Душа пользователя' }) => {
     audioRef.current.addEventListener('play', onPlay);
     audioRef.current.addEventListener('pause', onPause);
     audioRef.current.addEventListener('timeupdate', onTimeUpdate);
+    bridge.subscribe(({ detail: { type } }) => {
+      switch (type) {
+        case 'VKWebAppViewHide': {
+          audioRef.current.pause();
+
+          break;
+        }
+        default:
+          break;
+      }
+    });
 
     return () => {
       audioRef.current.removeEventListener('play', onPlay);

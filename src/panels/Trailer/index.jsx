@@ -9,10 +9,10 @@ import UserContext from 'context/userContext';
 import ViewContext from 'context/viewContext';
 
 const TrailerView = ({ id }) => {
-  const { songId } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { setCurrentView } = useContext(ViewContext);
   const goBack = () => {
-    if (songId) {
+    if (user && user.songId) {
       setCurrentView('result');
     } else {
       setCurrentView('home');

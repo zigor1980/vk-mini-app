@@ -3,7 +3,7 @@ logs
 *.log
 npm-debug.log*
 *.lock
-
+.env
 *.DS_Store
 
 # Dependency directories

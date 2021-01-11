@@ -1,6 +1,8 @@
 import axios from 'axios';
 import bridge from '@vkontakte/vk-bridge';
 
+import { getSignedUrl } from './aws';
+
 const getAccessToken = () =>
   bridge
     .send('VKWebAppStorageGet', {
@@ -29,7 +31,7 @@ async function requestInterceptor(config) {
 }
 
 const apiClient = axios.create({
-  baseURL: 'https://sheltered-earth-69434.herokuapp.com/api/',
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     Accept: 'application/json',
   },
@@ -40,9 +42,28 @@ apiClient.interceptors.request.use(requestInterceptor);
 const API = {
   login: body => apiClient.post('/user', body),
   getUser: () => apiClient.get('/user'),
-  getSong: () => apiClient.get('/user/song'),
-  loadSong: url => axios.get(url, { responseType: 'blob' }),
+  getSong: () =>
+    apiClient.get('/user/song').then(({ data }) => ({
+      ...data,
+      url: getSignedUrl(data.url),
+    })),
+  resetData: () => apiClient.delete('/user'),
+  // loadSong: url => axios.get(url, { responseType: 'blob' }),
   getUserById: id => apiClient.get(`/user/${id}`),
+  getImageStory: () =>
+    apiClient.get('/user/share/story', { responseType: 'blob' }),
+  getImageWall: url =>
+    apiClient.get('/user/share/track', {
+      params: {
+        url,
+      },
+    }),
+  uploadWallImage: (url, body) =>
+    axios.post(url, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
 };
 
 export default API;

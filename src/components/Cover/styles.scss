@@ -1,14 +1,19 @@
 .cover {
   display: block;
-  background-image: url('../../img/result-cover.png');
+  background-image: url('../../img/result-cover.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   margin: auto;
+  box-sizing: border-box;
   margin-top: -10px;
   text-align: center;
   width: 184px;
   height: 184px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 27px;
+  overflow: hidden;
+  margin-bottom: 10px;
 
   @media screen and (min-width: 759px) {
     width: 244px;
@@ -17,7 +22,7 @@
 
   &__avatar {
     margin: auto;
-    margin-top: 4px;
+    margin-top: 0;
     border: 4px solid white;
     border-radius: 50%;
     width: 84px;

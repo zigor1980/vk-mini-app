@@ -26,9 +26,9 @@ const STEPS = [
 ];
 
 const videoSourceDesctop =
-  'https://storage.googleapis.com/soul_mpv/videos/Analyse_desktop.mp4';
+  'https://disney-soul.s3.eu-west-2.amazonaws.com/videos/Analyse_desktop.mp4';
 const videoSourceMobile =
-  'https://storage.googleapis.com/soul_mpv/videos/Analyse_mobile.mp4';
+  'https://disney-soul.s3.eu-west-2.amazonaws.com/videos/Analyse_mobile.mp4';
 const AnalyzeView = ({ id, goToView }) => {
   const { authData, user, setSong, setUser } = useContext(UserContext);
   const { isDesktop } = useContext(LaunchParamsContext);
@@ -47,9 +47,7 @@ const AnalyzeView = ({ id, goToView }) => {
             }),
         );
       }, Promise.resolve()),
-      API.getSong().then(({ data }) => {
-        return data;
-      }),
+      API.getSong(),
       bridge
         .send('VKWebAppCallAPIMethod', {
           method: 'users.get',
@@ -66,7 +64,12 @@ const AnalyzeView = ({ id, goToView }) => {
     ]).then(([_, song, [user]]) => {
       const { first_name: firstNameGen, last_name: lastNameGen } = user;
       setSong(song);
-      setUser(prev => ({ ...prev, firstNameGen, lastNameGen }));
+      setUser(prev => ({
+        ...prev,
+        firstNameGen,
+        lastNameGen,
+        songId: song && song.id,
+      }));
       goToView('result');
     });
   }, []);

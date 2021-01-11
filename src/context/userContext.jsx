@@ -13,7 +13,8 @@ export const UserProvider = ({ children }) => {
     bridge
       .send('VKWebAppGetAuthToken', {
         app_id: launchParams && +launchParams.vk_app_id,
-        scope: 'friends,stories,wall,groups',
+        request_id: 'https://sheltered-earth-69434.herokuapp.com/',
+        scope: 'stories,wall,photos',
       })
       .then(result => {
         setAuthData(result);

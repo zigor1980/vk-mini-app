@@ -6,7 +6,7 @@ import View from '@vkontakte/vkui/dist/components/View/View';
 import { Alert } from '@vkontakte/vkui';
 // import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import '@vkontakte/vkui/dist/vkui.css';
-
+import AWS from 'aws-sdk';
 import { VIEWS } from 'constants/views';
 import ViewContext from 'context/viewContext';
 import UserContext from './context/userContext';
@@ -19,16 +19,14 @@ import Analyze from './panels/Analyze';
 import Result from './panels/Result';
 import Share from './panels/Share';
 import LaunchParamsContext from 'context/launchParamsContext';
+// import s3 from 'utils/aws';
 
 import './styles.scss';
-
 const App = () => {
   const context = useContext(LaunchParamsContext);
-  console.log(context);
   const { view, setCurrentView } = useContext(ViewContext);
   const { setUser } = useContext(UserContext);
   const [popout, setPopout] = useState(null);
-  console.log('app view', view);
 
   useEffect(() => {
     async function fetchData() {
@@ -48,7 +46,7 @@ const App = () => {
 
   return (
     <View activePanel={view} popout={popout}>
-      <StartScreen id={VIEWS.start} />
+      <StartScreen id={VIEWS.start} setPopout={setPopout} />
       <Home id={VIEWS.home} goToView={setCurrentView} go={go} />
       <TrailerView id="trailer" go={go} />
       <AccessError id="access_error" />
