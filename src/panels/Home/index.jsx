@@ -16,17 +16,11 @@ import mainSrc from '../../img/main.png';
 import './styles.scss';
 
 const Home = ({ id, goToView, go }) => {
-  const { authData = {} } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const { isDesktop } = useContext(LaunchParamsContext);
   const goToAnalyze = useCallback(() => {
-    const acessToken = authData && authData.access_token;
-
-    if (acessToken) {
-      goToView('analyze');
-    } else {
-      goToView('permissions');
-    }
-  }, [authData]);
+    goToView('permissions');
+  }, [goToView]);
 
   return (
     <CustomPanel

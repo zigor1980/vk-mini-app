@@ -8,6 +8,7 @@ import PopoutWrapper from '@vkontakte/vkui/dist/components/PopoutWrapper/PopoutW
 import Alert from '@vkontakte/vkui/dist/components/Alert/Alert';
 
 import API from 'utils/api';
+import { getToken } from 'utils/VKMethods';
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
@@ -33,7 +34,7 @@ const getImageDataUrl = blob =>
   });
 
 const Result = ({ id, go, setPopout }) => {
-  const { user, song, authData, setSong, setUser } = useContext(UserContext);
+  const { user, song, setSong } = useContext(UserContext);
   const { launchParams } = useContext(LaunchParamsContext);
 
   useEffect(() => {
@@ -48,26 +49,8 @@ const Result = ({ id, go, setPopout }) => {
         .then(songResponse => {
           result.song = songResponse;
         })
-        .then(() =>
-          bridge
-            .send('VKWebAppCallAPIMethod', {
-              method: 'users.get',
-              params: {
-                v: '5.126',
-                access_token: authData.access_token,
-                user_ids: user.id,
-                name_case: 'gen',
-              },
-            })
-            .then(({ response: [data] }) => {
-              result.user = data;
-            }),
-        )
         .then(() => {
-          const { song: songData, user: userData } = result;
-          const { first_name: firstNameGen, last_name: lastNameGen } = userData;
-          setSong(song);
-          setUser(prev => ({ ...prev, firstNameGen, lastNameGen }));
+          const { song: songData } = result;
           setSong(songData);
           setPopout(null);
         })
@@ -85,38 +68,42 @@ const Result = ({ id, go, setPopout }) => {
       </PopoutWrapper>,
     );
 
-    bridge
-      .send('VKWebAppCallAPIMethod', {
-        method: 'photos.getWallUploadServer',
-        params: {
-          v: '5.126',
-          access_token: authData.access_token,
-        },
-      })
-      .then(({ response }) => {
-        const { upload_url: uploadUrl } = response;
+    getToken(launchParams && +launchParams.vk_app_id, ['photos'])
+      .then(token =>
+        bridge
+          .send('VKWebAppCallAPIMethod', {
+            method: 'photos.getWallUploadServer',
+            params: {
+              v: '5.126',
+              access_token: token,
+            },
+          })
+          .then(({ response }) => {
+            const { upload_url: uploadUrl } = response;
 
-        return uploadUrl;
-      })
-      .then(uploadUrl => API.getImageWall(uploadUrl))
-      .then(({ data }) =>
-        bridge.send('VKWebAppCallAPIMethod', {
-          method: 'photos.saveWallPhoto',
-          params: {
-            v: '5.126',
-            access_token: authData.access_token,
-            ...data,
-          },
-        }),
+            return uploadUrl;
+          })
+          .then(uploadUrl => API.getImageWall(uploadUrl))
+          .then(({ data }) =>
+            bridge.send('VKWebAppCallAPIMethod', {
+              method: 'photos.saveWallPhoto',
+              params: {
+                v: '5.126',
+                access_token: token,
+                ...data,
+              },
+            }),
+          )
+          .then(({ response: [data] }) => {
+            setPopout(null);
+            bridge.send('VKWebAppShowWallPostBox', {
+              message: '',
+              owner_id: user && user.id,
+              // attachments: `photo${data.owner_id}_${data.id}, https://vk.com/app${launchParams.vk_app_id}#${user.id}`,
+              attachments: `photo${data.owner_id}_${data.id}, https://go.music-of-soul.ru/sjhnst`,
+            });
+          }),
       )
-      .then(({ response: [data] }) => {
-        setPopout(null);
-        bridge.send('VKWebAppShowWallPostBox', {
-          message: '',
-          owner_id: user && user.id,
-          attachments: `photo${data.owner_id}_${data.id}, https://vk.com/app${launchParams.vk_app_id}#${user.id}`,
-        });
-      })
       .catch(error => {
         setPopout(
           <Alert onClose={() => setPopout(null)}>
@@ -142,7 +129,7 @@ const Result = ({ id, go, setPopout }) => {
           blob: imageUrl,
           attachment: {
             type: 'url',
-            url: `https://vk.com/app${launchParams.vk_app_id}#${user.id}`,
+            url: `https://vk.com/app${launchParams.vk_app_id}#${user.id}?utm_source=vk&utm_medium=share&utm_campaign=wsoulmusicofyoursoul&utm_content=stories`,
             text: 'more',
           },
         });

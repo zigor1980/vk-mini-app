@@ -12,6 +12,7 @@ import CustomPanel from 'components/CustomPanel';
 import API from 'utils/api';
 import { getSignedUrl } from 'utils/aws';
 import './styles.scss';
+import { getToken, getUserInfo } from 'utils/VKMethods';
 
 const videoSourceDesktop =
   'https://disney-soul.s3.eu-west-2.amazonaws.com/videos/Loader_desktop.mp4';
@@ -21,13 +22,9 @@ const videoSourceMobile =
 const StartScreen = ({ id, setPopout }) => {
   const { setCurrentView } = useContext(ViewContext);
   const { hash = '' } = useLocation();
-  const {
-    setUser,
-    setAuthData,
-    saveUserToken,
-    requestPermissions,
-    setShared,
-  } = useContext(UserContext);
+  const { setUser, saveUserToken, setShared, setToken } = useContext(
+    UserContext,
+  );
   const { launchParams, isDesktop } = useContext(LaunchParamsContext);
   const loadUser = () => {
     const result = {};
@@ -46,56 +43,45 @@ const StartScreen = ({ id, setPopout }) => {
           result.user = data;
         }),
       )
-      .then(() =>
-        bridge
-          .send('VKWebAppStorageGet', {
-            keys: ['accessToken'],
-          })
-          .then(({ keys = [] }) => {
-            const { accessToken } = keys.reduce((memo, { key, value }) => {
-              const buf = memo;
-              buf[key] = value && JSON.parse(value);
+      .then(() => getToken(launchParams && +launchParams.vk_app_id))
+      .then(token => {
+        setToken(token);
 
-              return buf;
-            }, {});
-
-            result.authData = accessToken;
-          }),
-      )
+        return getUserInfo(result.user.id, token);
+      })
+      .then(data => {
+        result.user = {
+          ...result.user,
+          ...data,
+        };
+      })
       .then(() => {
-        const { userData, user, authData } = result;
+        const { userData, user } = result;
         const { songId } = userData;
         setUser({ ...user, ...userData });
-        setAuthData(authData);
         const shareUserId = hash && hash.replace(/^#/, '');
 
         if (shareUserId && shareUserId !== `${user.id}`) {
           const userId = hash.replace(/^#/, '');
-          requestPermissions(launchParams)
-            .then(() =>
-              API.getUserById(userId).then(({ data }) => {
-                setShared({
-                  ...data,
-                  songUrl: getSignedUrl(data.songUrl),
-                });
-              }),
-            )
+          API.getUserById(userId)
+            .then(({ data }) => {
+              setShared({
+                ...data,
+                songUrl: getSignedUrl(data.songUrl),
+              });
+            })
             .then(() => {
               setCurrentView(VIEWS.share);
             })
             .catch(() => {
               if (songId) {
-                requestPermissions(launchParams).then(() => {
-                  setCurrentView(VIEWS.result);
-                });
+                setCurrentView(VIEWS.result);
               } else {
                 setCurrentView(VIEWS.home);
               }
             });
         } else if (songId) {
-          requestPermissions(launchParams).then(() => {
-            setCurrentView(VIEWS.result);
-          });
+          setCurrentView(VIEWS.result);
         } else {
           setCurrentView(VIEWS.home);
         }
@@ -110,15 +96,7 @@ const StartScreen = ({ id, setPopout }) => {
   };
 
   useEffect(() => {
-    bridge
-      .send('VKWebAppStorageSet', {
-        key: 'accessToken',
-        value: JSON.stringify(null),
-      })
-      .then(() => {
-        setTimeout(loadUser, 1000);
-      });
-
+    setTimeout(loadUser, 1000);
     // eslint-disable-next-line
   }, []);
 

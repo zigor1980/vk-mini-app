@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import PopoutWrapper from '@vkontakte/vkui/dist/components/PopoutWrapper/PopoutWrapper';
 import { Div } from '@vkontakte/vkui';
-import bridge from '@vkontakte/vk-bridge';
 
 import AudioPlayer from 'components/Player';
 import CustomPanel from 'components/CustomPanel';
@@ -12,9 +11,10 @@ import CustomButton from 'components/CustomButton';
 import './styles.scss';
 import UserContext from 'context/userContext';
 import ViewContext from 'context/viewContext';
+import { getUserInfo } from 'utils/VKMethods';
 
 const Share = ({ id, setPopout }) => {
-  const { shared, setShared, authData, user } = useContext(UserContext);
+  const { shared, setShared, token, user } = useContext(UserContext);
   const { setCurrentView } = useContext(ViewContext);
   useEffect(() => {
     setPopout(
@@ -23,21 +23,11 @@ const Share = ({ id, setPopout }) => {
       </PopoutWrapper>,
     );
 
-    bridge
-      .send('VKWebAppCallAPIMethod', {
-        method: 'users.get',
-        params: {
-          v: '5.126',
-          access_token: authData.access_token,
-          user_ids: shared.id,
-          name_case: 'gen',
-        },
-      })
-      .then(({ response }) => {
-        const [userResponse] = response;
-        setShared(prev => ({ ...prev, ...userResponse }));
-        setPopout(null);
-      });
+    getUserInfo(shared.id, token).then(userResponse => {
+      setShared(prev => ({ ...prev, ...userResponse }));
+      setPopout(null);
+    });
+
     // eslint-disable-next-line
   }, []);
 
@@ -54,14 +44,14 @@ const Share = ({ id, setPopout }) => {
             <>
               Вот так звучит душа
               <br />
-              <span className="share-screen__user-name">{`${shared.first_name} ${shared.last_name}!`}</span>
+              <span className="share-screen__user-name">{`${shared.firstNameGen} ${shared.lastNameGen}!`}</span>
             </>
           }
         />
         <Div style={{ padding: 0 }}>
           <AudioPlayer
             src={shared.songUrl}
-            title={`Душа ${shared.first_name} ${shared.last_name}`}
+            title={`Душа ${shared.firstNameGen} ${shared.lastNameGen}`}
           />
         </Div>
       </div>

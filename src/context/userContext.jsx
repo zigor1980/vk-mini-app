@@ -5,30 +5,18 @@ const UserContext = React.createContext({ user: null });
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [authData, setAuthData] = useState(null);
+  const [token, setToken] = useState(null);
   const [shared, setShared] = useState(null);
   const [song, setSong] = useState(null);
   const [userToken, setUserToken] = useState(null);
-  const requestPermissions = launchParams =>
-    bridge
-      .send('VKWebAppGetAuthToken', {
-        app_id: launchParams && +launchParams.vk_app_id,
-        request_id: 'https://sheltered-earth-69434.herokuapp.com/',
-        scope: 'stories,wall,photos',
-      })
-      .then(result => {
-        setAuthData(result);
-
-        return result;
-      });
-  const saveUserToken = token =>
+  const saveUserToken = tokenResponse =>
     bridge
       .send('VKWebAppStorageSet', {
         key: 'userToken',
-        value: JSON.stringify(token),
+        value: JSON.stringify(tokenResponse),
       })
       .then(() => {
-        setUserToken(token);
+        setUserToken(tokenResponse);
       });
   const saveSongId = id => {
     bridge
@@ -41,16 +29,6 @@ export const UserProvider = ({ children }) => {
       });
   };
 
-  const saveAuthData = data =>
-    bridge
-      .send('VKWebAppStorageSet', {
-        key: 'accessToken',
-        value: JSON.stringify(data),
-      })
-      .then(({ result }) => {
-        if (result) setAuthData(data);
-      });
-
   return (
     <UserContext.Provider
       value={{
@@ -60,11 +38,9 @@ export const UserProvider = ({ children }) => {
         shared,
         setShared,
         saveUserToken,
-        requestPermissions,
         setUser,
-        authData,
-        saveAuthData,
-        setAuthData,
+        token,
+        setToken,
         setSong,
         saveSongId,
       }}

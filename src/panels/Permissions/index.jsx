@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
@@ -7,19 +7,13 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
-import LaunchParamsContext from 'context/launchParamsContext';
-import UserContext from 'context/userContext';
 
 import catSrc from '../../img/cat.png';
 import './styles.scss';
 
 const Permissions = ({ id, goToView }) => {
-  const { launchParams = {} } = useContext(LaunchParamsContext);
-  const { requestPermissions } = useContext(UserContext);
   const getPermissions = () => {
-    requestPermissions(launchParams).then(() => {
-      goToView('analyze');
-    });
+    goToView('analyze');
   };
 
   return (

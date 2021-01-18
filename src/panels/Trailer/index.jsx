@@ -48,7 +48,7 @@ const TrailerView = ({ id }) => {
         <CustomButton
           onClick={() => {
             const link = document.createElement('a');
-            link.setAttribute('href', 'https://google.com');
+            link.setAttribute('href', 'https://go.music-of-soul.ru/kncmoo');
             link.setAttribute('target', '_blank');
             link.click();
           }}
