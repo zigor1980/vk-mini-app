@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
-import { Div } from '@vkontakte/vkui';
+import { Div, Button } from '@vkontakte/vkui';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import PopoutWrapper from '@vkontakte/vkui/dist/components/PopoutWrapper/PopoutWrapper';
 import Alert from '@vkontakte/vkui/dist/components/Alert/Alert';
@@ -24,7 +24,6 @@ const getImageDataUrl = blob =>
     fileReader.addEventListener(
       'load',
       () => {
-        // convert image file to base64 string
         resolve(fileReader.result);
       },
       false,
@@ -116,7 +115,7 @@ const Result = ({ id, go, setPopout }) => {
               message: '',
               owner_id: user && user.id,
               // attachments: `photo${data.owner_id}_${data.id}, https://vk.com/app${launchParams.vk_app_id}#${user.id}`,
-              attachments: `photo${data.owner_id}_${data.id}, https://go.music-of-soul.ru/sjhnst`,
+              attachments: `photo${data.owner_id}_${data.id}, https://vk.com/app${launchParams.vk_app_id}#shareId=${user.id}&utm_source=vk&utm_medium=share_without&utm_campaign=wsoulmusicofyoursoul&utm_content=post`,
             });
           }),
       )
@@ -150,18 +149,25 @@ const Result = ({ id, go, setPopout }) => {
           blob: imageUrl,
           attachment: {
             type: 'url',
-            url: `https://vk.com/app${launchParams.vk_app_id}#${user.id}?utm_source=vk&utm_medium=share&utm_campaign=wsoulmusicofyoursoul&utm_content=stories`,
+            url: `https://vk.com/app${launchParams.vk_app_id}#shareId=${user.id}?utm_source=vk&utm_medium=share&utm_campaign=wsoulmusicofyoursoul&utm_content=stories`,
             text: 'more',
           },
         });
       })
-      .catch(error => {
+      .catch(() => {
         setPopout(
-          <Alert
-            header="Ошибка!"
-            text={JSON.stringify(error)}
-            onClose={() => setPopout(null)}
-          />,
+          <Alert>
+            <Div>Ошибка! Не удалось получить изображение.</Div>
+            <Div>
+              <Button
+                onClick={() => {
+                  setPopout(null);
+                }}
+              >
+                Попробовать снова
+              </Button>
+            </Div>
+          </Alert>,
         );
       });
   };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
 import { useLocation } from 'react-router';
 import { Alert, Div, Button } from '@vkontakte/vkui';
+import queryString from 'query-string';
 
 import LaunchParamsContext from 'context/launchParamsContext';
 import { VIEWS } from 'constants/views';
@@ -53,11 +54,11 @@ const StartScreen = ({ id, setPopout }) => {
         const { userData, user } = result;
         const { songId } = userData;
         setUser({ ...user, ...userData });
-        const shareUserId = hash && hash.replace(/^#/, '');
+        const hashString = hash && hash.replace(/^#/, '?');
+        const { shareId: shareUserId } = queryString.parse(hashString);
 
         if (shareUserId && shareUserId !== `${user.id}`) {
-          const userId = hash.replace(/^#/, '');
-          API.getUserById(userId)
+          API.getUserById(shareUserId)
             .then(({ data }) => {
               setShared({
                 ...data,
