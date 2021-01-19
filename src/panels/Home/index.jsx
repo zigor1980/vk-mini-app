@@ -1,29 +1,42 @@
-/* eslint-disable */
-
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
+import ReactGA from 'react-ga';
 
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
 import Logo from 'components/Logo';
-import UserContext from 'context/userContext';
 import LaunchParamsContext from 'context/launchParamsContext';
 
 import mainSrc from '../../img/main.png';
 import './styles.scss';
 
 const Home = ({ id, goToView, go }) => {
-  const { token } = useContext(UserContext);
   const { isDesktop } = useContext(LaunchParamsContext);
   const goToAnalyze = useCallback(() => {
+    ReactGA.event({
+      category: 'general',
+      action: 'go',
+    });
     goToView('permissions');
   }, [goToView]);
 
+  const viewTrailer = useCallback(
+    e => {
+      ReactGA.event({
+        category: 'general',
+        action: 'watchtrailer',
+      });
+      go(e);
+    },
+    [go],
+  );
+
   return (
     <CustomPanel
+      centered
       id={id}
       header={
         <PanelHeader separator={false}>
@@ -58,7 +71,7 @@ const Home = ({ id, goToView, go }) => {
         <CustomButton
           className="home-screen__button home-screen__button_link"
           type="link"
-          onClick={go}
+          onClick={viewTrailer}
           data-to="trailer"
         >
           Смотреть трейлер

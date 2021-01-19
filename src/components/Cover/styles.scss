@@ -15,9 +15,25 @@
   overflow: hidden;
   margin-bottom: 10px;
 
+  @media screen and (min-width: 321px) {
+    width: 220px;
+    height: 220px;
+  }
   @media screen and (min-width: 759px) {
     width: 244px;
     height: 244px;
+  }
+
+  @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+    margin-bottom: 4vh;
+    width: 60vw;
+    height: 60vw;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+    margin-bottom: 4vh;
   }
 
   &__avatar {
@@ -32,6 +48,11 @@
     @media screen and (min-width: 759px) {
       width: 122px;
       height: 122px;
+    }
+
+    @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+      width: 28vw;
+      height: 28vw;
     }
   }
 

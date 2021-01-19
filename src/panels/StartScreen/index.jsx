@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
 import { useLocation } from 'react-router';
-import { Alert } from '@vkontakte/vkui';
+import { Alert, Div, Button } from '@vkontakte/vkui';
 
 import LaunchParamsContext from 'context/launchParamsContext';
 import { VIEWS } from 'constants/views';
@@ -12,7 +12,7 @@ import CustomPanel from 'components/CustomPanel';
 import API from 'utils/api';
 import { getSignedUrl } from 'utils/aws';
 import './styles.scss';
-import { getToken, getUserInfo } from 'utils/VKMethods';
+import { getUserInfo } from 'utils/VKMethods';
 
 const videoSourceDesktop =
   'https://disney-soul.s3.eu-west-2.amazonaws.com/videos/Loader_desktop.mp4';
@@ -22,10 +22,9 @@ const videoSourceMobile =
 const StartScreen = ({ id, setPopout }) => {
   const { setCurrentView } = useContext(ViewContext);
   const { hash = '' } = useLocation();
-  const { setUser, saveUserToken, setShared, setToken } = useContext(
-    UserContext,
-  );
+  const { setUser, saveUserToken, setShared } = useContext(UserContext);
   const { launchParams, isDesktop } = useContext(LaunchParamsContext);
+
   const loadUser = () => {
     const result = {};
     API.login(launchParams)
@@ -43,12 +42,7 @@ const StartScreen = ({ id, setPopout }) => {
           result.user = data;
         }),
       )
-      .then(() => getToken(launchParams && +launchParams.vk_app_id))
-      .then(token => {
-        setToken(token);
-
-        return getUserInfo(result.user.id, token);
-      })
+      .then(() => getUserInfo(result.user.id))
       .then(data => {
         result.user = {
           ...result.user,
@@ -87,9 +81,27 @@ const StartScreen = ({ id, setPopout }) => {
         }
       })
       .catch(error => {
+        const errorData = error.error_data;
+        const { error_code: errorCode, error_reason: errorReason } =
+          errorData || {};
+
         setPopout(
-          <Alert onClose={() => setPopout(null)}>
-            {JSON.stringify(error)}
+          <Alert>
+            <Div>
+              {errorCode === 4 && errorReason === 'User denied'
+                ? 'Для продолжения работы необходимо разрешить доступ к общей информации'
+                : 'Ошибка!'}{' '}
+            </Div>
+            <Div>
+              <Button
+                onClick={() => {
+                  setPopout(null);
+                  loadUser();
+                }}
+              >
+                Попробовать снова
+              </Button>
+            </Div>
           </Alert>,
         );
       });

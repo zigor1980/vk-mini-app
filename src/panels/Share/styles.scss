@@ -3,6 +3,14 @@
 .share-screen {
   text-align: center;
 
+  &__cover {
+    padding: 0 15px;
+
+    @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+      padding-top: 5vh;
+    }
+  }
+
   &__user {
     &-name {
       font-weight: 800;

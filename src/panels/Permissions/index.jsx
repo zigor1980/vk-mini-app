@@ -2,30 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
+import ReactGA from 'react-ga';
 
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
-import Logo from 'components/Logo';
 
 import catSrc from '../../img/cat.png';
 import './styles.scss';
 
 const Permissions = ({ id, goToView }) => {
   const getPermissions = () => {
+    ReactGA.event({
+      category: 'general',
+      action: 'agree',
+    });
     goToView('analyze');
   };
 
   return (
-    <CustomPanel
-      id={id}
-      header={
-        <PanelHeader separator={false}>
-          <Logo size={85} />
-        </PanelHeader>
-      }
-      className="permissions-screen"
-    >
+    <CustomPanel id={id} centered className="permissions-screen">
       <Div style={{ paddingBottom: 0 }}>
         <h1 className="general-header">
           Чтобы услышать душу, нужен доступ к информации с вашей страницы!

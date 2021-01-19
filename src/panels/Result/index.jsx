@@ -1,17 +1,16 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import bridge from '@vkontakte/vk-bridge';
 import { Div } from '@vkontakte/vkui';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import PopoutWrapper from '@vkontakte/vkui/dist/components/PopoutWrapper/PopoutWrapper';
 import Alert from '@vkontakte/vkui/dist/components/Alert/Alert';
+import ReactGA from 'react-ga';
 
 import API from 'utils/api';
 import { getToken } from 'utils/VKMethods';
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
-import Logo from 'components/Logo';
 import UserContext from 'context/userContext';
 import AudioPlayer from 'components/Player';
 import Cover from 'components/Cover';
@@ -36,6 +35,17 @@ const getImageDataUrl = blob =>
 const Result = ({ id, go, setPopout }) => {
   const { user, song, setSong } = useContext(UserContext);
   const { launchParams } = useContext(LaunchParamsContext);
+
+  const viewTrailer = useCallback(
+    e => {
+      ReactGA.event({
+        category: 'general',
+        action: 'watchtrailer',
+      });
+      go(e);
+    },
+    [go],
+  );
 
   useEffect(() => {
     if (!song && user && user.songId) {
@@ -68,6 +78,11 @@ const Result = ({ id, go, setPopout }) => {
       </PopoutWrapper>,
     );
 
+    ReactGA.event({
+      category: 'general',
+      action: 'share_post',
+    });
+
     getToken(launchParams && +launchParams.vk_app_id, ['photos'])
       .then(token =>
         bridge
@@ -96,6 +111,7 @@ const Result = ({ id, go, setPopout }) => {
           )
           .then(({ response: [data] }) => {
             setPopout(null);
+
             bridge.send('VKWebAppShowWallPostBox', {
               message: '',
               owner_id: user && user.id,
@@ -119,6 +135,11 @@ const Result = ({ id, go, setPopout }) => {
         <ScreenSpinner />
       </PopoutWrapper>,
     );
+
+    ReactGA.event({
+      category: 'general',
+      action: 'share_stories',
+    });
 
     API.getImageStory()
       .then(({ data }) => getImageDataUrl(data))
@@ -153,15 +174,7 @@ const Result = ({ id, go, setPopout }) => {
   } = user;
 
   return (
-    <CustomPanel
-      id={id}
-      header={
-        <PanelHeader separator={false}>
-          <Logo size={85} />
-        </PanelHeader>
-      }
-      className="result-screen"
-    >
+    <CustomPanel id={id} centered className="result-screen">
       <Cover
         className="result-screen__cover"
         src={user.photo_200}
@@ -173,7 +186,7 @@ const Result = ({ id, go, setPopout }) => {
           </>
         }
       />
-      <Div style={{ padding: '0 10px' }}>
+      <Div style={{ padding: '0 5px' }}>
         <AudioPlayer
           src={song && song.url}
           title={
@@ -224,7 +237,12 @@ const Result = ({ id, go, setPopout }) => {
           В историю
         </CustomButton>
       </Div>
-      <CustomButton type="link" onClick={go} data-to="trailer">
+      <CustomButton
+        type="link"
+        className="result-screen__trailer"
+        onClick={viewTrailer}
+        data-to="trailer"
+      >
         Смотреть трейлер
       </CustomButton>
     </CustomPanel>

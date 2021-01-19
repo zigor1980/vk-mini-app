@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Slider from '@vkontakte/vkui/dist/components/Slider/Slider';
 import bridge from '@vkontakte/vk-bridge';
+import ReactGA from 'react-ga';
 
 import { formatTime } from './utils';
 import './styles.scss';
@@ -82,6 +83,10 @@ const Player = ({ src, title = 'Душа пользователя' }) => {
 
   const play = () => {
     if (!isPlaying) {
+      ReactGA.event({
+        category: 'general',
+        action: 'play',
+      });
       audioRef.current.play();
     } else {
       audioRef.current.pause();

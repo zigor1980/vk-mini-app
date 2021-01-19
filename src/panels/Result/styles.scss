@@ -16,8 +16,18 @@
     margin-top: 10px;
     font-size: 22px;
 
+    @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+      padding: 2vh 0;
+    }
+
     @media screen and (min-width: 500px) {
       font-size: 40px;
+    }
+  }
+
+  &__trailer {
+    @media screen and (orientation: portrait) and (max-width: 759px) and (min-width: 321px) {
+      padding-bottom: 7vh;
     }
   }
 

@@ -33,7 +33,9 @@ const CustomHeader = ({ withBack = false, onBack, isLargeLogo = false }) => {
             style={{ color: '#e5e823', marginLeft: '10px' }}
           >
             {osName === IOS ? (
-              <Icon28ChevronBack fill="#e5e823" width={30} />
+              <>
+                <Icon28ChevronBack fill="#e5e823" width={30} />
+              </>
             ) : (
               <Icon24Back fill="#e5e823" width={30} />
             )}

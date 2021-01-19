@@ -8,13 +8,13 @@ export const getToken = (appId, scopes = []) =>
     })
     .then(({ access_token: accessToken }) => accessToken);
 
-export const getUserInfo = (userId, token) =>
+export const getUserInfo = userId =>
   bridge
     .send('VKWebAppCallAPIMethod', {
       method: 'users.get',
       params: {
         v: '5.126',
-        access_token: token,
+        access_token: process.env.REACT_APP_SERVICE_TOKEN,
         user_ids: userId,
         name_case: 'gen',
       },

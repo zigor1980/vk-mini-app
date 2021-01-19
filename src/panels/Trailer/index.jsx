@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
+import ReactGA from 'react-ga';
 
 import CustomPanel from 'components/CustomPanel';
 import CustomButton from 'components/CustomButton';
@@ -19,8 +20,26 @@ const TrailerView = ({ id }) => {
     }
   };
 
+  const onClickBuy = () => {
+    ReactGA.event({
+      category: 'general',
+      action: 'watchtrailer',
+    });
+
+    const link = document.createElement('a');
+    link.setAttribute('href', 'https://go.music-of-soul.ru/kncmoo');
+    link.setAttribute('target', '_blank');
+    link.click();
+  };
+
   return (
-    <CustomPanel className="trailer-screen" id={id} withBack onBack={goBack}>
+    <CustomPanel
+      className="trailer-screen"
+      id={id}
+      centered
+      withBack
+      onBack={goBack}
+    >
       <Div style={{ paddingBottom: 0 }}>
         <p className="common-description trailer__description">
           Школьный учитель музыки Джо Гарднер случайно попадает в мир, где
@@ -45,16 +64,7 @@ const TrailerView = ({ id }) => {
         ></iframe>
       </Div>
       <Div className="trailer-screen__button" style={{ textAlign: 'center' }}>
-        <CustomButton
-          onClick={() => {
-            const link = document.createElement('a');
-            link.setAttribute('href', 'https://go.music-of-soul.ru/kncmoo');
-            link.setAttribute('target', '_blank');
-            link.click();
-          }}
-        >
-          Купить билет
-        </CustomButton>
+        <CustomButton onClick={onClickBuy}>Купить билет</CustomButton>
       </Div>
     </CustomPanel>
   );

@@ -37,7 +37,7 @@ const Share = ({ id, setPopout }) => {
 
   return (
     <CustomPanel id={id} className="share-screen">
-      <div style={{ padding: '0 15px' }}>
+      <div className="share-screen__cover">
         <Cover
           src={shared.avatar}
           title={
