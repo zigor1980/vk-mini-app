@@ -13,6 +13,7 @@
 
   &__user {
     &-name {
+      font-family: 'OpenSansExtraBold';
       font-weight: 800;
       @media screen and (min-width: 759px) {
         font-size: 17px;
@@ -89,14 +90,14 @@
 
   .Panel__in {
     background-image: url('../../img/notes-share-top-left.svg'),
-      url('../../img/notes-share-top-right.svg'), url('../../img/main-bg.png');
+      url('../../img/notes-share-top-right.svg'), url('../../img/main-bg.jpg');
     background-position: top left, top right, center;
     background-size: 34%, 30%, cover;
     background-repeat: no-repeat;
 
     @media screen and (max-width: 600px) {
       background-image: url('../../img/notes-m-t-l.svg'),
-        url('../../img/notes-m-t-r.svg'), url('../../img/main-bg.png');
+        url('../../img/notes-m-t-r.svg'), url('../../img/main-bg.jpg');
       background-position: top left, top right, center;
       background-size: 30%, 30%, cover;
     }

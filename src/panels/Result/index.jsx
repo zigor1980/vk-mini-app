@@ -33,7 +33,7 @@ const getImageDataUrl = blob =>
 
 const Result = ({ id, go, setPopout }) => {
   const { user, song, setSong } = useContext(UserContext);
-  const { launchParams } = useContext(LaunchParamsContext);
+  const { launchParams, isDesktop } = useContext(LaunchParamsContext);
 
   const viewTrailer = useCallback(
     e => {
@@ -119,10 +119,19 @@ const Result = ({ id, go, setPopout }) => {
             });
           }),
       )
-      .catch(error => {
+      .catch(() => {
         setPopout(
-          <Alert onClose={() => setPopout(null)}>
-            {JSON.stringify(error)}
+          <Alert>
+            <Div>Ошибка! Не удалось загрузить изображение.</Div>
+            <Div>
+              <Button
+                onClick={() => {
+                  setPopout(null);
+                }}
+              >
+                Попробовать снова
+              </Button>
+            </Div>
           </Alert>,
         );
       });
@@ -157,7 +166,7 @@ const Result = ({ id, go, setPopout }) => {
       .catch(() => {
         setPopout(
           <Alert>
-            <Div>Ошибка! Не удалось получить изображение.</Div>
+            <Div>Ошибка! Не удалось загрузить изображение.</Div>
             <Div>
               <Button
                 onClick={() => {
@@ -186,7 +195,9 @@ const Result = ({ id, go, setPopout }) => {
         src={user.photo_200}
         title={
           <>
-            <span className="result-screen__user-name">{`${firstName} ${lastName}!`}</span>
+            <span className="result-screen__user-name">
+              {firstName} <br /> {lastName}!
+            </span>
             <br />
             Вот так звучит ваша душа!
           </>
@@ -227,7 +238,7 @@ const Result = ({ id, go, setPopout }) => {
         </CustomButton>
       </Div> */}
       <h1 className="general-header">
-        Поделитесь с друзьями мелодией вашей души
+        Поделитесь с друзьями {!isDesktop ? <br /> : null}мелодией вашей души
       </h1>
       <Div className="result-screen__share">
         <CustomButton
